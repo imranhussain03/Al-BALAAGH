@@ -1,0 +1,16 @@
+{
+  "name": "al-balaagh-foundation",
+  "version": "1.0.0",
+  "description": "AL BALAAGH FOUNDATION - MERN Stack Website",
+  "main": "server.js",
+  "scripts": {
+    "server": "cd backend && npm run dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "client": "cd frontend && npm start",
+    "build": "cd frontend && npm run build",
+    "install-deps": "npm install && cd backend && npm install && cd ../frontend && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
