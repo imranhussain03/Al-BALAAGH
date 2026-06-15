@@ -15,5 +15,4 @@ router.get('/all', auth, getAllDonations);
 
 // Get donation statistics
 router.get('/stats', getDonationStats);
-
 module.exports = router;

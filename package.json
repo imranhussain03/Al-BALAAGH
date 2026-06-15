@@ -7,8 +7,8 @@
     "server": "cd backend && npm run dev",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "client": "cd frontend && npm start",
-    "build": "cd frontend && npm run build",
-    "install-deps": "npm install && cd backend && npm install && cd ../frontend && npm install"
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "start": "node backend/server.js"
   },
   "devDependencies": {
     "concurrently": "^7.6.0"

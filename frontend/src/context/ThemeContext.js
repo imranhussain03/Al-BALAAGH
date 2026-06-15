@@ -11,22 +11,34 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider = ({ children }) => {
-  const [isDark] = useState(false);
+  const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
-    // Locked to light theme by user request
-    document.documentElement.classList.remove('dark');
-    localStorage.setItem('theme', 'light');
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      setIsDark(true);
+      document.documentElement.classList.add('dark');
+    }
   }, []);
 
   const toggleTheme = () => {
-    // Locked to light theme, toggling is disabled
+    setIsDark(!isDark);
+    if (!isDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
   };
 
   const value = {
-    isDark: false,
+    isDark,
     toggleTheme
   };
+
 
   return (
     <ThemeContext.Provider value={value}>

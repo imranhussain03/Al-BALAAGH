@@ -21,14 +21,25 @@ if (!fs.existsSync(uploadsDir)) {
 }
 app.use('/uploads', express.static(uploadsDir));
 
-app.get('/', (req, res) => {
-  res.send('API is running....');
-});
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/donations', require('./routes/donations'));
 app.use('/api/transparency', require('./routes/transparency'));
 app.use('/api/volunteers', require('./routes/volunteers'));
 app.use('/api/join', require('./routes/join'));
+
+// Serve static assets in production (or if the build folder exists)
+const frontendBuildPath = path.join(__dirname, '../frontend/build');
+if (fs.existsSync(frontendBuildPath)) {
+  app.use(express.static(frontendBuildPath));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendBuildPath, 'index.html'));
+  });
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running....');
+  });
+}
+
 
 // Robust database connection retry loop
 const connectDB = async () => {
